@@ -28,7 +28,7 @@ public class ItemService {
         } else return itemRepository.createItem(itemDto, userId);
     }
 
-    public ItemDto updateItem (Long itemId, ItemDto itemDto, Long id) throws ObjectNotFoundException, ObjectNotValidException {
+    public ItemDto updateItem(Long itemId, ItemDto itemDto, Long id) throws ObjectNotFoundException, ObjectNotValidException {
         return itemRepository.updateItem(itemId, itemDto, id);
     }
 

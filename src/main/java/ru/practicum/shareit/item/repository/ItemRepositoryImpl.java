@@ -74,7 +74,8 @@ public class ItemRepositoryImpl implements ItemRepository {
                 log.info("Search by title: {}, {}", text, itemDto.getId() + " " + itemDto.getName());
                 itemsByTitle.add(itemDto);
             }
-        } return itemsByTitle;
+        }
+        return itemsByTitle;
     }
 
     @Override
