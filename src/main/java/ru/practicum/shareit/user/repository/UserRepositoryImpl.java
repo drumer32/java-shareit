@@ -24,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final Map<Long, User> users;
 
     public UserDto createUser(UserDto userDto) throws ObjectNotValidException {
-        if (userDto.getEmail() == null || StringUtils.hasText(userDto.getEmail())) {
+        if (userDto.getEmail() == null || !(StringUtils.hasText(userDto.getEmail()))) {
             log.warn("Пользователь не создан, email не может быть пустым. ");
             throw new ObjectNotValidException("Пользователь не создан, email не может быть пустым");
         } else {
