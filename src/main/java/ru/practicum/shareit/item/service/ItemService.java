@@ -21,13 +21,11 @@ public class ItemService {
 
     public ItemDto createItem(ItemDto itemDto, Long userId) throws ObjectNotValidException, ObjectNotFoundException {
         userService.getUserById(userId);
-
         if (itemDto.getAvailable() == null || itemDto.getName() == null ||
                 itemDto.getName().isEmpty() || itemDto.getDescription() == null) {
             log.warn("Не указано имя, описание товара или параметр доступности");
             throw new ObjectNotValidException("Не указано имя, описание товара или параметр доступности");
-        } else
-            return itemRepository.createItem(itemDto, userId);
+        } else return itemRepository.createItem(itemDto, userId);
     }
 
     public ItemDto updateItem (Long itemId, ItemDto itemDto, Long id) throws ObjectNotFoundException, ObjectNotValidException {

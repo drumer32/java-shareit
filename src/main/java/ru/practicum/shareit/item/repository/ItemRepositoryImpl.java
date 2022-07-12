@@ -76,6 +76,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
         } return itemsByTitle;
     }
+
     @Override
     public void deleteItem(Long id) throws ObjectNotFoundException {
         if (items.containsKey(id)) {

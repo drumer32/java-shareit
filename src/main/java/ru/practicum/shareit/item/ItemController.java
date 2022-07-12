@@ -44,6 +44,7 @@ public class ItemController {
     public Collection<ItemDto> searchItemByTitle(@RequestParam String text) {
         return itemService.searchItemByTitle(text);
     }
+
     @DeleteMapping(value = {"/{id}"})
     public void deleteItem(@PathVariable Long id) throws ObjectNotFoundException {
         itemService.deleteItem(id);
