@@ -3,6 +3,8 @@ package ru.practicum.shareit.user.repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+import ru.practicum.shareit.exceptions.AlreadyExistException;
 import ru.practicum.shareit.exceptions.ObjectNotFoundException;
 import ru.practicum.shareit.exceptions.ObjectNotValidException;
 import ru.practicum.shareit.user.model.User;
@@ -11,6 +13,7 @@ import ru.practicum.shareit.user.mapper.UserMapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -21,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
     private final Map<Long, User> users;
 
     public UserDto createUser(UserDto userDto) throws ObjectNotValidException {
-        if (userDto.getEmail() == null) {
+        if (userDto.getEmail() == null || StringUtils.hasText(userDto.getEmail())) {
             log.warn("Пользователь не создан, email не может быть пустым. ");
             throw new ObjectNotValidException("Пользователь не создан, email не может быть пустым");
         } else {
@@ -34,16 +37,26 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto, Long id) {
-        User newUser = users.get(id);
-        if (userDto.getEmail() != null) {
-            newUser.setEmail(userDto.getEmail());
-        }
-        if (userDto.getName() != null) {
-            newUser.setName(userDto.getName());
-        }
-        log.info("Пользователь c id {} обновлён", newUser.getId());
-        return UserMapper.userToDto(newUser);
+    public UserDto updateUser(UserDto userDto, Long id) throws AlreadyExistException, ObjectNotFoundException {
+        if (users.containsKey(id)) {
+            List<User> usersList = new ArrayList<>(users.values());
+            for (User user : usersList) {
+                if (user.getEmail().equals(userDto.getEmail()) && !user.getId().equals(id)) {
+                    log.error("Пользователь с таким email {} уже существует ", userDto.getEmail());
+                    throw new AlreadyExistException("Пользователь с таким email уже существует");
+                }
+            }
+            User newUser = users.get(id);
+            if (userDto.getEmail() != null) {
+                newUser.setEmail(userDto.getEmail());
+            }
+            if (userDto.getName() != null) {
+                newUser.setName(userDto.getName());
+            }
+            log.info("Пользователь c id {} обновлён", newUser.getId());
+            return UserMapper.userToDto(newUser);
+        } else log.info("Пользователь с id {} не найден", id);
+        throw new ObjectNotFoundException("Пользователь не найден");
     }
 
     @Override

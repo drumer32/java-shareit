@@ -33,18 +33,7 @@ public class UserService {
     }
 
     public UserDto updateUser(UserDto userDto, Long id) throws ObjectNotFoundException, AlreadyExistException {
-        if (userRepository.getUsers().containsKey(id)) {
-            List<User> usersList = new ArrayList<>(userRepository.getUsers().values());
-            for (User user : usersList) {
-                if (user.getEmail().equals(userDto.getEmail()) && !user.getId().equals(id)) {
-                    log.error("Пользователь с таким email {} уже существует ", userDto.getEmail());
-                    throw new AlreadyExistException("Пользователь с таким email уже существует");
-                }
-            }
-            return userRepository.updateUser(userDto, id);
-        } else
-            log.info("Пользователь с id {} не найден", id);
-        throw new ObjectNotFoundException("Пользователь не найден");
+        return userRepository.updateUser(userDto, id);
     }
 
     public void deleteUser(Long id) throws ObjectNotFoundException {

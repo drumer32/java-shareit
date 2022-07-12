@@ -35,13 +35,11 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public ItemDto updateItem(Long itemId, ItemDto itemDto, Long id) throws ObjectNotFoundException, ObjectNotValidException {
+    public ItemDto updateItem(Long itemId, ItemDto itemDto, Long id) throws ObjectNotFoundException {
         Item newItem;
-        try {
-            newItem = items.get(itemId);
-        } catch (NullPointerException e) {
+        if (items.get(itemId) == null) {
             throw new ObjectNotFoundException("Невозможно обновить данные о вещи. Сперва создайте ее.");
-        }
+        } else newItem = items.get(itemId);
         if (newItem.getOwner().equals(id)) {
             if (itemDto.getName() != null) {
                 newItem.setName(itemDto.getName());
