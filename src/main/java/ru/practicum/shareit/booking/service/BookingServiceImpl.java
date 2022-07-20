@@ -50,7 +50,7 @@ public class BookingServiceImpl implements BookingService {
                 return bookingRepository.findAllByBookerIdAndStartAfterOrderByStartDesc(userId, now);
             case "CURRENT":
                 return bookingRepository.findAllByBookerIdAndStartBeforeAndEndAfterOrderByStartDesc(userId, now, now);
-            default: // ALL
+            default:
                 return bookingRepository.findAllByBookerIdOrderByStartDesc(userId);
         }
     }
@@ -69,7 +69,7 @@ public class BookingServiceImpl implements BookingService {
                 return bookingRepository.findAllByItemOwnerIdAndStartAfterOrderByStartDesc(userId, now);
             case "CURRENT":
                 return bookingRepository.findAllByItemOwnerIdAndStartBeforeAndEndAfterOrderByStartDesc(userId, now, now);
-            default: // ALL
+            default:
                 return bookingRepository.findAllByItemOwnerIdOrderByStartDesc(userId);
         }
     }
