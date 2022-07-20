@@ -16,7 +16,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@NoArgsConstructor
 @Table(name = "comments")
 public class Comment {
     @Id
