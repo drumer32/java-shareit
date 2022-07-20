@@ -10,11 +10,10 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-@Builder
 @Entity
 @Table(name = "items")
 public class Item {
