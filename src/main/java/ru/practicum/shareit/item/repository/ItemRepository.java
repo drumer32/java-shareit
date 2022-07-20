@@ -1,21 +1,12 @@
 package ru.practicum.shareit.item.repository;
 
-import ru.practicum.shareit.exceptions.ObjectNotFoundException;
-import ru.practicum.shareit.exceptions.ObjectNotValidException;
-import ru.practicum.shareit.item.model.ItemDto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import ru.practicum.shareit.item.model.Item;
 
-import java.util.Collection;
+import java.util.List;
 
-public interface ItemRepository {
-    ItemDto createItem(ItemDto itemDto, Long userId) throws ObjectNotValidException;
+public interface ItemRepository extends JpaRepository<Item, Long> {
+    List<Item> getAllByOwnerId(long userId);
 
-    ItemDto updateItem(Long itemId, ItemDto itemDto, Long id) throws ObjectNotFoundException, ObjectNotValidException;
-
-    void deleteItem(Long id) throws ObjectNotFoundException;
-
-    Collection<ItemDto> searchItemByTitle(String text);
-
-    Collection<ItemDto> getItemsByUserId(Long id) throws ObjectNotFoundException;
-
-    ItemDto getItemById(Long id) throws ObjectNotFoundException;
+    List<Item> getAllByNameContainsIgnoreCaseOrDescriptionContainsIgnoreCaseAndAvailableIsTrue(String text1, String text2);
 }
