@@ -81,7 +81,7 @@ public class ItemController {
     List<PublicItemDto> search(@RequestParam(defaultValue = "") String text) {
         return itemService.searchBy(text)
                 .stream()
-                .map(i -> modelMapper.map(i, PublicItemDto.class))
+                .map(item -> modelMapper.map(item, PublicItemDto.class))
                 .collect(Collectors.toList());
     }
 

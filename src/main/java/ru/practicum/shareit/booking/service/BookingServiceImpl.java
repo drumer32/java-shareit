@@ -1,9 +1,9 @@
 package ru.practicum.shareit.booking.service;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.booking.InnerBookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.booking.model.Status;
@@ -18,7 +18,7 @@ import java.util.List;
 public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
 
-    private final ModelMapper modelMapper;
+    private final InnerBookingMapper modelMapper;
 
     @Override
     public Booking get(Long id) {
@@ -78,7 +78,7 @@ public class BookingServiceImpl implements BookingService {
     public InnerBookingDto getLastByItemId(long itemId) {
         Booking booking = bookingRepository.getFirstByItemIdOrderByStartAsc(itemId);
         if (booking == null) return null;
-        InnerBookingDto innerBookingDto = modelMapper.map(booking, InnerBookingDto.class);
+        InnerBookingDto innerBookingDto = modelMapper.convert(booking);
         innerBookingDto.setBookerId(booking.getBooker().getId());
         return innerBookingDto;
     }
@@ -87,7 +87,7 @@ public class BookingServiceImpl implements BookingService {
     public InnerBookingDto getNextByItemId(long itemId) {
         Booking booking = bookingRepository.getFirstByItemIdOrderByEndDesc(itemId);
         if (booking == null) return null;
-        InnerBookingDto innerBookingDto = modelMapper.map(booking, InnerBookingDto.class);
+        InnerBookingDto innerBookingDto = modelMapper.convert(booking);
         innerBookingDto.setBookerId(booking.getBooker().getId());
         return innerBookingDto;
     }
